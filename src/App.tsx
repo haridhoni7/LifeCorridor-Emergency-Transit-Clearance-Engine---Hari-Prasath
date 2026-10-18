@@ -26,6 +26,7 @@ import {
   AlertTriangle,
   Info,
   X,
+  Video,
 } from 'lucide-react';
 import { GoogleNavigationMap } from './components/GoogleNavigationMap';
 import { NavigationMap } from './components/NavigationMap';
@@ -40,6 +41,7 @@ import { SubmissionModal } from './components/SubmissionModal';
 import { MacroInflowWidget } from './components/MacroInflowWidget';
 import { InteractiveTourExplainer } from './components/InteractiveTourExplainer';
 import { DriverCabinPOV } from './components/DriverCabinPOV';
+import { VideoDemoStudio } from './components/VideoDemoStudio';
 import {
   RouteWaypoint,
   CorridorAlertState,
@@ -70,6 +72,7 @@ export default function App() {
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [isAudioDuckingActive, setIsAudioDuckingActive] = useState(false);
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
+  const [showVideoStudio, setShowVideoStudio] = useState(false);
   const [showTour, setShowTour] = useState(true);
   const [mapEngine, setMapEngine] = useState<'google' | 'leaflet'>('google');
   const [gmpQuotaExceeded, setGmpQuotaExceeded] = useState(false);
@@ -703,6 +706,16 @@ export default function App() {
             <span>Tour & Sandbox</span>
           </button>
 
+          {/* 3.5-Min AI Video Demo Studio Trigger */}
+          <button
+            onClick={() => setShowVideoStudio(true)}
+            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-rose-600 via-purple-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 text-white font-black text-xs flex items-center gap-2 shadow-lg shadow-rose-950/40 transition-all active:scale-95 animate-pulse"
+            title="Open 3.5-minute AI Video Demonstration Studio with Automated Voiceover & Screen Recorder"
+          >
+            <Video className="w-4 h-4 text-rose-200" />
+            <span>3.5-Min AI Video Studio</span>
+          </button>
+
           {/* GitHub Sync & Submission Modal Trigger */}
           <button
             onClick={() => setShowSubmissionModal(true)}
@@ -976,6 +989,24 @@ export default function App() {
         <SubmissionModal
           isOpen={showSubmissionModal}
           onClose={() => setShowSubmissionModal(false)}
+        />
+      )}
+
+      {/* 3.5-Minute AI Video Studio Modal */}
+      {showVideoStudio && (
+        <VideoDemoStudio
+          isOpen={showVideoStudio}
+          onClose={() => setShowVideoStudio(false)}
+          onNavigateView={(mode, tab) => {
+            setViewMode(mode);
+            setActiveTab(tab as any);
+          }}
+          onStartSimulation={handleToggleTransit}
+          onStopSimulation={() => {
+            setInTransit(false);
+            if (transitTimerRef.current) clearInterval(transitTimerRef.current);
+          }}
+          inTransit={inTransit}
         />
       )}
     </div>
