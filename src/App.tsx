@@ -709,20 +709,20 @@ export default function App() {
           {/* 3.5-Min AI Video Demo Studio Trigger */}
           <button
             onClick={() => setShowVideoStudio(true)}
-            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-rose-600 via-purple-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 text-white font-black text-xs flex items-center gap-2 shadow-lg shadow-rose-950/40 transition-all active:scale-95 animate-pulse"
+            className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-600 via-purple-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 text-white font-black text-xs flex items-center gap-2 shadow-lg shadow-rose-950/40 transition-all active:scale-95 animate-pulse shrink-0 whitespace-nowrap"
             title="Open 3.5-minute AI Video Demonstration Studio with Automated Voiceover & Screen Recorder"
           >
-            <Video className="w-4 h-4 text-rose-200" />
-            <span>3.5-Min AI Video Studio</span>
+            <Video className="w-4 h-4 text-rose-200 shrink-0" />
+            <span className="whitespace-nowrap font-black">3.5-Min AI Video Studio</span>
           </button>
 
           {/* GitHub Sync & Submission Modal Trigger */}
           <button
             onClick={() => setShowSubmissionModal(true)}
-            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-950/40 transition-all active:scale-95"
+            className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-950/40 transition-all active:scale-95 shrink-0 whitespace-nowrap"
           >
-            <Github className="w-4 h-4" />
-            <span>GitHub Sync</span>
+            <Github className="w-4 h-4 shrink-0" />
+            <span className="whitespace-nowrap">GitHub Sync</span>
           </button>
         </div>
       </header>
@@ -983,6 +983,18 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Floating Quick Launcher Button for 3.5-Min AI Video Studio */}
+      <div className="fixed bottom-5 right-5 z-[50]">
+        <button
+          onClick={() => setShowVideoStudio(true)}
+          className="px-4 py-3 rounded-2xl bg-gradient-to-r from-rose-600 via-purple-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 text-white font-black text-xs md:text-sm flex items-center gap-2.5 shadow-2xl shadow-rose-950/80 border border-rose-400/40 transition-all hover:scale-105 active:scale-95 animate-pulse shrink-0 whitespace-nowrap"
+          title="Launch 3.5-Minute AI Video Demonstration Studio"
+        >
+          <Video className="w-4 h-4 md:w-5 md:h-5 text-rose-200 shrink-0" />
+          <span className="whitespace-nowrap font-black tracking-wide">3.5-Min AI Video Studio 🎬</span>
+        </button>
+      </div>
 
       {/* Submission & GitHub Sync Modal */}
       {showSubmissionModal && (

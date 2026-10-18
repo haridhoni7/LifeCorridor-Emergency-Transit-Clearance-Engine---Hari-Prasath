@@ -14,7 +14,7 @@
 
 ## 📌 Live Deployment & Submissions
 
-* **Live Interactive Web Application:** [https://ais-pre-457v47uvvrc5y327bymjjr-214318149492.asia-southeast1.run.app](https://ais-pre-457v47uvvrc5y327bymjjr-214318149492.asia-southeast1.run.app)
+* **Live Interactive Web Application:** [https://ais-pre-457v47uvvrc5y327bymjjr-214318149492.asia-southeast1.run.app/](https://ais-pre-457v47uvvrc5y327bymjjr-214318149492.asia-southeast1.run.app/)
 * **GitHub Repository:** [https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath](https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath)
 * **Official 3.5-Minute Demonstration Video:** [https://youtu.be/LifeCorridor-Demo-2026](https://youtu.be/LifeCorridor-Demo-2026) *(Direct shareable video link)*
 * **GitHub Video Asset & Releases:** [https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath/releases/tag/v1.0.0](https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath/releases/tag/v1.0.0)

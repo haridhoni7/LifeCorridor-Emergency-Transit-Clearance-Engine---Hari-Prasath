@@ -791,9 +791,20 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.join(__dirname, 'dist')));
+    const distPath = path.join(__dirname, 'dist');
+    const rootIndexPath = path.join(__dirname, 'index.html');
+    app.use(express.static(distPath));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+      const distIndex = path.join(distPath, 'index.html');
+      import('fs').then((fs) => {
+        if (fs.existsSync(distIndex)) {
+          res.sendFile(distIndex);
+        } else if (fs.existsSync(rootIndexPath)) {
+          res.sendFile(rootIndexPath);
+        } else {
+          res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'));
+        }
+      });
     });
   }
 
