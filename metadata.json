@@ -1,0 +1,8 @@
+{
+  "name": "LifeCorridor: Emergency Transit Clearance Engine",
+  "description": "Autonomous emergency vehicle clearance protocol for Google Maps creating moving zipper corridors ahead of ambulances using Gemini AI, 3-Zone shockwave protocol, and real-time telemetry.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

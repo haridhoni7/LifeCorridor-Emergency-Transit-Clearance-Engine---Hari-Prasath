@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LifeCorridor — Autonomous Emergency Transit Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LifeCorridor: Autonomous moving zipper corridor for Google Maps, Google Cloud AI Builder Cup 2026.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: #090d16; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    
+    header {
+      background: #0f172a; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #1e293b;
+    }
+    .badge { background: #ef4444; color: white; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; }
+    
+    .dashboard { display: flex; flex: 1; height: calc(100vh - 65px); }
+    .panel { flex: 1; display: flex; flex-direction: column; border-right: 1px solid #1e293b; }
+    .panel:last-child { border-right: none; }
+    
+    .panel-header { background: #0f172a; padding: 14px 20px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
+    .map-container { flex: 1; position: relative; }
+    #map { height: 100%; width: 100%; background: #0b1120; }
+    
+    .controls { padding: 16px 20px; background: #0f172a; border-top: 1px solid #1e293b; }
+    button {
+      background: #dc2626; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-weight: 700;
+      cursor: pointer; width: 100%; font-size: 15px; transition: all 0.2s;
+    }
+    button:hover { background: #b91c1c; }
+    button.active { background: #16a34a; }
+    
+    /* Commuter HUD Styles */
+    .hud-card {
+      margin: 20px; padding: 24px; border-radius: 16px; background: #0f172a; border: 2px solid #334155;
+      display: flex; flex-direction: column; gap: 16px; transition: all 0.3s ease; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+    }
+    .hud-card.RED { background: #450a0a; border-color: #ef4444; animation: pulse 1.5s infinite; }
+    .hud-card.AMBER { background: #451a03; border-color: #f59e0b; }
+    .hud-card.YELLOW { background: #422006; border-color: #eab308; }
+    .hud-card.GREEN { background: #064e3b; border-color: #10b981; }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+      70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    
+    .directive-title { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; }
+    .distance-display { font-size: 48px; font-weight: 900; font-family: monospace; }
+    .voice-readout { font-size: 15px; opacity: 0.9; line-height: 1.5; }
+    .custom-icon { font-size: 24px; text-align: center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 style="font-size: 19px; font-weight: 800; letter-spacing: -0.02em;">LifeCorridor <span style="font-weight: 400; opacity: 0.7;">| Google Maps Emergency Corridor</span></h1>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <span class="badge">Google Cloud Run + Gemini 2.0 Flash</span>
+      <span style="font-size: 13px; opacity: 0.8;">Bengaluru Old Airport Rd Corridor</span>
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <!-- Ambulance Screen -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Unit 108 — Ambulance Cockpit (Old Airport Rd)</span>
+        <span id="ambStatus" style="color: #94a3b8;">STANDBY</span>
+      </div>
+      <div class="map-container">
+        <div id="map"></div>
+      </div>
+      <div class="controls">
+        <div style="margin-bottom: 12px; font-size: 13px; opacity: 0.85;">
+          <strong>CAD Dispatch:</strong> <em>"Critical Trauma: Male, 42. Cardiac Arrest & severe trauma. Priority transit en route to Manipal Hospital, Bengaluru."</em>
+        </div>
+        <button id="transitBtn" onclick="toggleEmergencyTransit()">🚨 Start Emergency Transit</button>
+      </div>
+    </div>
+
+    <!-- Commuter Screen -->
+    <div class="panel" style="background: #060911;">
+      <div class="panel-header">
+        <span>Commuter In-Drive HUD (Car 500m Ahead)</span>
+        <span style="color: #38bdf8;">Google Maps Connected</span>
+      </div>
+      <div style="flex: 1; padding: 24px; display: flex; flex-direction: column; justify-content: center;">
+        <div id="hudCard" class="hud-card GREEN">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span id="zoneBadge" style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em;">ZONE CLEAR</span>
+            <span id="speedDisplay" style="font-size: 14px; opacity: 0.8;">Road Speed: 12 km/h (Gridlock)</span>
+          </div>
+          <div class="distance-display" id="distanceDisplay">-- m</div>
+          <div class="directive-title" id="directiveTitle">Route Normal</div>
+          <p class="voice-readout" id="audioReadout">Standard navigation active. No emergency clearance corridors detected in your trajectory.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Coordinates along Old Airport Road, Bengaluru (Domlur Flyover -> Manipal Hospital)
+    const route = [
+      { lat: 12.9592, lng: 77.6444, name: "Domlur Flyover Exit" },
+      { lat: 12.9585, lng: 77.6510, name: "Command Hospital Junction" },
+      { lat: 12.9578, lng: 77.6580, name: "Murugeshpalya Junction" },
+      { lat: 12.9570, lng: 77.6650, name: "HAL Police Station" },
+      { lat: 12.9562, lng: 77.6720, name: "Manipal Hospital Emergency Bay" }
+    ];
+
+    let map = L.map('map').setView([12.9578, 77.6580], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    let routeLine = L.polyline(route.map(p => [p.lat, p.lng]), { color: '#38bdf8', weight: 6, opacity: 0.7 }).addTo(map);
+
+    // Markers
+    let ambMarker = L.marker([route[0].lat, route[0].lng], {
+      icon: L.divIcon({ className: 'custom-icon', html: '🚨', iconSize: [32, 32] })
+    }).addTo(map);
+
+    // Commuter is stationed 500m ahead along the corridor
+    let commuterPos = route[3];
+    let commuterMarker = L.marker([commuterPos.lat, commuterPos.lng], {
+      icon: L.divIcon({ className: 'custom-icon', html: '🚗', iconSize: [32, 32] })
+    }).addTo(map);
+
+    let inTransit = false;
+    let currentStep = 0;
+    let simInterval = null;
+    let lastSpokenZone = null;
+
+    // Browser Speech Synthesis for Voice Alerts
+    function speakAlert(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.05;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    async function toggleEmergencyTransit() {
+      let btn = document.getElementById('transitBtn');
+      let status = document.getElementById('ambStatus');
+
+      if (!inTransit) {
+        inTransit = true;
+        btn.textContent = "⏹ Stop Emergency Transit";
+        btn.classList.add('active');
+        status.textContent = "VERIFIED • EMERGENCY BROADCAST ACTIVE";
+        status.style.color = "#ef4444";
+        
+        speakAlert("Emergency corridor broadcast activated. Route locked to Manipal Hospital.");
+        currentStep = 0;
+        simInterval = setInterval(simulateMovement, 2000);
+      } else {
+        inTransit = false;
+        clearInterval(simInterval);
+        btn.textContent = "🚨 Start Emergency Transit";
+        btn.classList.remove('active');
+        status.textContent = "STANDBY";
+        status.style.color = "#94a3b8";
+        resetCommuterHUD();
+      }
+    }
+
+    async function simulateMovement() {
+      if (currentStep >= route.length) {
+        clearInterval(simInterval);
+        return;
+      }
+
+      let currentAmbPos = route[currentStep];
+      ambMarker.setLatLng([currentAmbPos.lat, currentAmbPos.lng]);
+
+      // Call Cloud Run / Local Backend if available
+      try {
+        let res = await fetch('/api/calculate-corridor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ambulance_lat: currentAmbPos.lat,
+            ambulance_lng: currentAmbPos.lng,
+            commuter_lat: commuterPos.lat,
+            commuter_lng: commuterPos.lng,
+            road_speed_kmh: 12.0
+          })
+        });
+        if (res.ok) {
+          let data = await res.json();
+          updateCommuterHUD(data);
+          currentStep++;
+          return;
+        }
+      } catch (err) {
+        // Fallback calculation in browser
+      }
+
+      // Local Haversine calculation fallback
+      let dLat = (currentAmbPos.lat - commuterPos.lat) * (Math.PI / 180);
+      let dLng = (currentAmbPos.lng - commuterPos.lng) * (Math.PI / 180);
+      let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(commuterPos.lat * Math.PI / 180) * Math.cos(currentAmbPos.lat * Math.PI / 180) *
+              Math.sin(dLng/2) * Math.sin(dLng/2);
+      let dist = 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      let data = {
+        distance_meters: Math.round(dist),
+        zone: dist <= 500 ? "ZONE_1_CONTACT" : (dist <= 3000 ? "ZONE_2_ELASTIC_CUSHION" : "ZONE_3_CHOKEPOINT_FLUSH"),
+        directive: dist <= 500 ? "MERGE_LEFT_NOW" : (dist <= 3000 ? "MAINTAIN_2M_GAP" : "FLUSH_FORWARD"),
+        color_code: dist <= 500 ? "RED" : (dist <= 3000 ? "AMBER" : "YELLOW"),
+        audio_alert: dist <= 500 
+          ? `Emergency ambulance ${Math.round(dist)} meters behind in your lane. Merge left immediately.`
+          : `Ambulance approaching ${Math.round(dist)} meters behind. Maintain 2-meter gap.`
+      };
+
+      updateCommuterHUD(data);
+      currentStep++;
+    }
+
+    function updateCommuterHUD(data) {
+      let card = document.getElementById('hudCard');
+      card.className = `hud-card ${data.color_code}`;
+      document.getElementById('zoneBadge').textContent = data.zone.replace(/_/g, " ");
+      document.getElementById('distanceDisplay').textContent = `${data.distance_meters} m`;
+      document.getElementById('directiveTitle').textContent = data.directive.replace(/_/g, " ");
+      document.getElementById('audioReadout').textContent = data.audio_alert;
+
+      if (lastSpokenZone !== data.zone && data.zone !== "ZONE_CLEAR") {
+        speakAlert(data.audio_alert);
+        lastSpokenZone = data.zone;
+      }
+    }
+
+    function resetCommuterHUD() {
+      let card = document.getElementById('hudCard');
+      card.className = "hud-card GREEN";
+      document.getElementById('zoneBadge').textContent = "ZONE CLEAR";
+      document.getElementById('distanceDisplay').textContent = "-- m";
+      document.getElementById('directiveTitle').textContent = "Route Normal";
+      document.getElementById('audioReadout').textContent = "Standard navigation active. No emergency corridors detected in your trajectory.";
+      lastSpokenZone = null;
+    }
+  </script>
+</body>
+</html>
