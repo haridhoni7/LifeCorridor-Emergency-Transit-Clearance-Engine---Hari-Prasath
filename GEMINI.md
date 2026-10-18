@@ -5,7 +5,7 @@
 > **Author:** Hari Prasath / Hari Dhoni ([@haridhoni7](https://github.com/haridhoni7))  
 > **Repository:** [https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath](https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath)  
 > **Live Submitted Application:** [https://ais-pre-457v47uvvrc5y327bymjjr-214318149492.asia-southeast1.run.app/](https://ais-pre-457v47uvvrc5y327bymjjr-214318149492.asia-southeast1.run.app/)  
-> **Official 3.5-Min Video Demo:** [https://youtu.be/LifeCorridor-Demo-2026](https://youtu.be/LifeCorridor-Demo-2026)  
+> **Official 3.5-Min Video Demo:** [https://screenrec.com/share/nVIZT4PWJz](https://screenrec.com/share/nVIZT4PWJz)  
 > **Evaluation Focus:** Technical Merit (40%), Problem Alignment (25%), Innovation (25%), UX (10%)  
 
 ---

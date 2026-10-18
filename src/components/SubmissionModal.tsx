@@ -183,7 +183,7 @@ firebase deploy --only hosting`;
               </div>
 
               <button
-                onClick={() => copyText('https://youtu.be/LifeCorridor-Demo-2026', 'video_link')}
+                onClick={() => copyText('https://screenrec.com/share/nVIZT4PWJz', 'video_link')}
                 className="px-2.5 py-1 bg-rose-900/80 hover:bg-rose-800 text-white font-bold rounded text-[11px] flex items-center gap-1 transition-colors border border-rose-500/50"
               >
                 {copiedKey === 'video_link' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -192,7 +192,7 @@ firebase deploy --only hosting`;
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed">
-              Direct YouTube Video Link: <a href="https://youtu.be/LifeCorridor-Demo-2026" target="_blank" rel="noreferrer" className="text-cyan-300 underline font-mono">https://youtu.be/LifeCorridor-Demo-2026</a>
+              Official ScreenRec Video Link: <a href="https://screenrec.com/share/nVIZT4PWJz" target="_blank" rel="noreferrer" className="text-cyan-300 underline font-mono">https://screenrec.com/share/nVIZT4PWJz</a>
               <br />
               GitHub Video Release Asset: <a href="https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath/releases/tag/v1.0.0" target="_blank" rel="noreferrer" className="text-cyan-300 underline font-mono">github.com/haridhoni7/.../releases/tag/v1.0.0</a>
             </p>
