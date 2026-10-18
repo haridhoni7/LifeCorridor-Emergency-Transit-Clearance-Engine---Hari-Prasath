@@ -653,15 +653,6 @@ export default function App() {
             <Hospital className="w-3.5 h-3.5" />
             <span>Trauma Bay</span>
           </button>
-
-          <button
-            onClick={() => setShowVideoStudio(true)}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white shadow-md font-mono"
-            title="Open 3.5-Minute AI Video Studio"
-          >
-            <Video className="w-3.5 h-3.5 text-rose-200" />
-            <span>3.5m Video Studio</span>
-          </button>
         </div>
 
         {/* Secondary Modules & GitHub / Submission */}
@@ -738,33 +729,6 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
-        {/* Quick Launch Banner for 3.5-Min Video Studio */}
-        <div className="p-3.5 rounded-2xl bg-gradient-to-r from-rose-950/80 via-purple-950/70 to-slate-950 border border-rose-500/50 flex flex-wrap items-center justify-between gap-3 shadow-xl">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-rose-600 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow">
-              <Video className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-black text-sm text-white">3.5-Minute AI Video Demonstration Studio</span>
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  HACKATHON COMPLIANT (3:30)
-                </span>
-              </div>
-              <p className="text-xs text-slate-300 mt-0.5">
-                Automated 6-scene video narration, live interactive UI walkthrough, teleprompter script, and 1-click web screen recorder.
-              </p>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setShowVideoStudio(true)}
-            className="px-4 py-2 bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 text-white font-black rounded-xl text-xs flex items-center gap-2 shadow-lg transition-all active:scale-95 shrink-0"
-          >
-            <Play className="w-3.5 h-3.5 fill-white" />
-            <span>Launch Video Studio</span>
-          </button>
-        </div>
         {/* Dynamic Location Notification Toast / Banner */}
         {locationNotice && (
           <div
