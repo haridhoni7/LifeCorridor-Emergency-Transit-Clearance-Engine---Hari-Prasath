@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Corridor Sessions
+    match /corridor_sessions/{sessionId} {
+      allow read: if true; // Public read for civilian navigation HUDs receiving corridor alerts
+      allow create, update: if isSignedIn() && isValidId(sessionId);
+      allow delete: if false;
+
+      // Subcollection: Commuter Alerts
+      match /commuter_alerts/{alertId} {
+        allow read: if true;
+        allow create, update: if isSignedIn() && isValidId(sessionId) && isValidId(alertId);
+        allow delete: if false;
+      }
+    }
+
+    // Hospital Handshakes
+    match /hospital_handshakes/{handshakeId} {
+      allow read: if true;
+      allow create, update: if isSignedIn() && isValidId(handshakeId);
+      allow delete: if false;
+    }
+  }
+}

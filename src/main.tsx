@@ -1,6 +1,7 @@
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import './firebase.ts';
 
 // Google Maps Platform Quota Defense listener
 (window as any).gm_authFailure = () => {

@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "CorridorSession": {
+      "title": "CorridorSession",
+      "description": "Active emergency vehicle clearance corridor session.",
+      "type": "object",
+      "properties": {
+        "sessionId": { "type": "string", "maxLength": 128 },
+        "ambulanceId": { "type": "string", "maxLength": 64 },
+        "hospitalName": { "type": "string", "maxLength": 128 },
+        "status": { "type": "string", "enum": ["ACTIVE", "COMPLETED", "CANCELLED"] },
+        "currentLat": { "type": "number" },
+        "currentLng": { "type": "number" },
+        "heading": { "type": "number" },
+        "urgencyTier": { "type": "string", "enum": ["CODE_RED", "CODE_AMBER", "INVALID"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["sessionId", "ambulanceId", "hospitalName", "status", "currentLat", "currentLng", "urgencyTier"]
+    },
+    "CommuterAlert": {
+      "title": "CommuterAlert",
+      "description": "Real-time clearance alert generated for in-path commuter vehicles.",
+      "type": "object",
+      "properties": {
+        "alertId": { "type": "string", "maxLength": 128 },
+        "vehicleId": { "type": "string", "maxLength": 64 },
+        "sessionId": { "type": "string", "maxLength": 128 },
+        "zone": { "type": "string", "enum": ["ZONE_1_CONTACT", "ZONE_2_ELASTIC_CUSHION", "ZONE_3_CHOKEPOINT_FLUSH", "ZONE_CLEAR", "ZONE_OPPOSING_LANE"] },
+        "directive": { "type": "string", "maxLength": 128 },
+        "distanceMeters": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["alertId", "vehicleId", "sessionId", "zone", "directive", "distanceMeters"]
+    },
+    "HospitalHandshake": {
+      "title": "HospitalHandshake",
+      "description": "Real-time trauma bay handshake & readiness state.",
+      "type": "object",
+      "properties": {
+        "handshakeId": { "type": "string", "maxLength": 128 },
+        "hospitalId": { "type": "string", "maxLength": 64 },
+        "sessionId": { "type": "string", "maxLength": 128 },
+        "etaMinutes": { "type": "number" },
+        "bayAssigned": { "type": "string", "maxLength": 128 },
+        "readinessState": { "type": "string", "enum": ["PRE_ALERT_STANDBY", "CODE_RED_MOBILIZED", "PATIENT_ARRIVED"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["handshakeId", "hospitalId", "sessionId", "etaMinutes", "readinessState"]
+    }
+  },
+  "firestore": {
+    "/corridor_sessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/CorridorSession" },
+      "description": "Collection of active and past emergency corridor sessions."
+    },
+    "/corridor_sessions/{sessionId}/commuter_alerts/{alertId}": {
+      "schema": { "$ref": "#/entities/CommuterAlert" },
+      "description": "Subcollection of real-time commuter notifications under a corridor session."
+    },
+    "/hospital_handshakes/{handshakeId}": {
+      "schema": { "$ref": "#/entities/HospitalHandshake" },
+      "description": "Collection of hospital pre-arrival readiness handshakes."
+    }
+  }
+}
