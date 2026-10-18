@@ -3,7 +3,7 @@
 > Built for the **Google Cloud AI Builder Cup 2026 (JAPAC)**  
 > **Track:** Sustainability & Social Impact (Emergency Preparedness & Resilient Mobility)  
 > **Developer:** Hari Dhoni ([@haridhoni7](https://github.com/haridhoni7))  
-> **Repository:** [https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari](https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari)
+> **Repository:** [https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath](https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath)
 
 [![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Cloud%20Run-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
 [![Gemini 2.0 Flash](https://img.shields.io/badge/Gemini%202.0-Multimodal%20AI-8E75B2?logo=google&logoColor=white)](https://ai.google.dev/)
@@ -15,7 +15,7 @@
 ## 📌 Live Deployment & Submissions
 
 * **Live Interactive Web Application:** [https://ais-pre-457v47uvvrc5y327bymjjr-214318149492.asia-southeast1.run.app](https://ais-pre-457v47uvvrc5y327bymjjr-214318149492.asia-southeast1.run.app)
-* **GitHub Repository:** [https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari](https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari)
+* **GitHub Repository:** [https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath](https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath)
 * **3.5-Minute Demonstration Video:** [https://youtu.be/LifeCorridor-Demo-2026](https://youtu.be/LifeCorridor-Demo-2026)
 
 ---
@@ -126,8 +126,8 @@ To solve extreme gridlock (columns up to 10 km), LifeCorridor utilizes traffic f
 ### 1. Run the Full-Stack Application
 ```bash
 # Clone the repository
-git clone https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari.git
-cd LifeCorridor-Emergency-Transit-Clearance-Engine---Hari
+git clone https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath.git
+cd LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath
 
 # Install dependencies
 npm install

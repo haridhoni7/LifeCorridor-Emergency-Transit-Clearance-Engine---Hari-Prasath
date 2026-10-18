@@ -24,7 +24,7 @@ export const SubmissionModal: React.FC<SubmissionModalProps> = ({ isOpen, onClos
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [tokenInput, setTokenInput] = useState('');
   const [usernameInput, setUsernameInput] = useState('haridhoni7');
-  const [repoNameInput, setRepoNameInput] = useState('LifeCorridor-Emergency-Transit-Clearance-Engine---Hari');
+  const [repoNameInput, setRepoNameInput] = useState('LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath');
   const [pushLoading, setPushLoading] = useState(false);
   const [pushStatus, setPushStatus] = useState<{
     success: boolean;
@@ -58,7 +58,7 @@ export const SubmissionModal: React.FC<SubmissionModalProps> = ({ isOpen, onClos
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           githubUsername: usernameInput.trim() || 'haridhoni7',
-          repoName: repoNameInput.trim() || 'LifeCorridor-Emergency-Transit-Clearance-Engine---Hari',
+          repoName: repoNameInput.trim() || 'LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath',
           token: tokenInput.trim(),
         }),
       });
@@ -143,14 +143,14 @@ firebase deploy --only hosting`;
               <Github className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
               <div className="space-y-1.5 flex-1">
                 <div className="font-bold text-sm text-cyan-300">
-                  Target GitHub Repository: https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari
+                  Target GitHub Repository: https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   You can sync all source code (React HUD, Gemini AI SDK, Python FastAPI Backend, Dockerfile, GEMINI.md, and README.md) directly to your repository using Option A below or through your local terminal using Option B.
                 </p>
                 <div className="pt-2 flex flex-wrap gap-2">
                   <a
-                    href="https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari"
+                    href="https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded text-xs transition-colors shadow-sm"
@@ -194,7 +194,7 @@ firebase deploy --only hosting`;
                   type="text"
                   value={repoNameInput}
                   onChange={(e) => setRepoNameInput(e.target.value)}
-                  placeholder="LifeCorridor-Emergency-Transit-Clearance-Engine---Hari"
+                  placeholder="LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath"
                   className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
                 />
               </div>

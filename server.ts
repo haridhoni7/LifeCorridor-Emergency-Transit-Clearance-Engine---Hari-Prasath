@@ -442,7 +442,7 @@ with zipfile.ZipFile('lifecorridor-source.zip', 'w', zipfile.ZIP_DEFLATED) as zi
 
 // Push directly to GitHub if user provides a Personal Access Token
 app.post('/api/push-github', async (req, res) => {
-  const { githubUsername = 'haridhoni7', repoName = 'LifeCorridor-Emergency-Transit-Clearance-Engine---Hari', token } = req.body;
+  const { githubUsername = 'haridhoni7', repoName = 'LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath', token } = req.body;
   if (!token) {
     return res.status(400).json({ error: 'GitHub Personal Access Token is required to push.' });
   }
