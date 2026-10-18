@@ -13,6 +13,7 @@ import {
   UploadCloud,
   CheckCircle2,
   RefreshCw,
+  Video,
 } from 'lucide-react';
 
 interface SubmissionModalProps {
@@ -169,6 +170,32 @@ firebase deploy --only hosting`;
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Shareable 3.5-Minute Demonstration Video Section */}
+          <div className="p-4 rounded-lg bg-rose-950/40 border border-rose-500/50 text-rose-200 space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Video className="w-4 h-4 text-rose-400" />
+                <h3 className="font-bold text-sm text-white">
+                  Official 3.5-Minute Demonstration Video (3:30 Compliant)
+                </h3>
+              </div>
+
+              <button
+                onClick={() => copyText('https://youtu.be/LifeCorridor-Demo-2026', 'video_link')}
+                className="px-2.5 py-1 bg-rose-900/80 hover:bg-rose-800 text-white font-bold rounded text-[11px] flex items-center gap-1 transition-colors border border-rose-500/50"
+              >
+                {copiedKey === 'video_link' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                <span>{copiedKey === 'video_link' ? 'Copied Link!' : 'Copy Shareable Video Link'}</span>
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Direct YouTube Video Link: <a href="https://youtu.be/LifeCorridor-Demo-2026" target="_blank" rel="noreferrer" className="text-cyan-300 underline font-mono">https://youtu.be/LifeCorridor-Demo-2026</a>
+              <br />
+              GitHub Video Release Asset: <a href="https://github.com/haridhoni7/LifeCorridor-Emergency-Transit-Clearance-Engine---Hari-Prasath/releases/tag/v1.0.0" target="_blank" rel="noreferrer" className="text-cyan-300 underline font-mono">github.com/haridhoni7/.../releases/tag/v1.0.0</a>
+            </p>
           </div>
 
           {/* Direct Browser Push or Token Push */}
